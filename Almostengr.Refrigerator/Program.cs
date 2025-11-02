@@ -1,5 +1,4 @@
 using Almostengr.Refrigerator.Models;
-using Almostengr.Refrigerator.Workers;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,10 +10,12 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-// builder.Services.AddHostedService<CompressorWorker>();
-// builder.Services.AddHostedService<DoorAlarmWorker>();
-// builder.Services.AddHostedService<DoorStateWorker>();
-// builder.Services.AddHostedService<TemperatureWorker>();
+#if RELEASE
+builder.Services.AddHostedService<CompressorWorker>();
+builder.Services.AddHostedService<DoorAlarmWorker>();
+builder.Services.AddHostedService<DoorStateWorker>();
+builder.Services.AddHostedService<TemperatureWorker>();
+#endif
 
 var app = builder.Build();
 

@@ -25,4 +25,4 @@ practices.
 ## Issues and Feature Requests
 
 Any defects, issues, and feature requests should be added as an Issue on the projet's Github repository. This 
-can be done at [https://github.com/almostengr/pi-refrigerator](https://github.com/almostengr/pi-refrigerator).
+can be done at [https://github.com/almostengr/refrigerator-pi](https://github.com/almostengr/refrigerator-pi).
