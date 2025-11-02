@@ -17,22 +17,20 @@ internal sealed class DoorAlarmWorker : BaseWorker<DoorAlarmWorker>
         {
             try
             {
-                SystemSettingModel alarmSetting = await GetSystemSettingAsync(SystemSettingOption.DoorAlarmGpio);
-                if (alarmSetting.IntValue() == 0)
+                SystemSettingModel timeoutSetting = await GetSystemSettingAsync(SystemSettingOption.DoorAlarmSeconds);
+                if (timeoutSetting.IntValue() == 0)
                 {
-                    await Task.Delay(TimeSpan.FromSeconds(15));
+                    await Task.Delay(TimeSpan.FromSeconds(60));
                     continue;
                 }
-
-                SystemSettingModel timeoutSetting = await GetSystemSettingAsync(SystemSettingOption.DoorAlarmMinutes);
                 
                 if (FridgeStateModel.IsDoorOpen && (FridgeStateModel.DoorLastOpened - DateTime.Now) >= TimeSpan.FromMinutes(timeoutSetting.IntValue()))
                 {
-                    WriteOutput(alarmSetting.IntValue(), PinValue.High);
+                    WriteOutput(GpioPinOption.DoorAlarm, PinValue.High);
                 }
                 else
                 {
-                    WriteOutput(alarmSetting.IntValue(), PinValue.Low);
+                    WriteOutput(GpioPinOption.DoorAlarm, PinValue.Low);
                 }
             }
             catch (Exception ex)

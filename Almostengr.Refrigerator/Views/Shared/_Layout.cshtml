@@ -9,7 +9,7 @@
     <meta name="theme-color" content="#712cf9" />
     <title>Almostengr Refrigerator</title>
     <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/starter-template/" />
-    <link href="/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link href="/css/site.css" rel="stylesheet" />
 </head>
 
@@ -101,9 +101,10 @@
             @RenderBody()
         </main>
     </div>
-    <footer class="pt-5 my-5 text-body-secondary border-top">
-        <div class="container">
-            &copy; 2025 - Almostengr Refrigerator
+    <footer class="my-5">
+        <div class="container text-body-secondary border-top pt-2">
+            <div>&copy; 2025 - Almostengr Refrigerator</div>
+            <div><a href="https://github.com/almostengr/refrigerator-pi">https://github.com/almostengr/refrigerator-pi</a></div>
         </div>
     </footer>
     <div class="modal fade" tabindex="-1" id="genericModal">
@@ -112,10 +113,9 @@
             </div>
         </div>
     </div>
-    <script src="/js/color-modes.js"></script>
-    @* <script src="/js/bootstrap.bundle.min.js" class="astro-vvvwv3sm"></script> *@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/color-modes.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>

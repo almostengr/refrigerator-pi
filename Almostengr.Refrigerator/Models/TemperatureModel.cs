@@ -15,12 +15,12 @@ public sealed class TemperatureModel
 
     public static Result<TemperatureModel> Create(decimal readingC, string modifiedBy)
     {
-        Result<TemperatureModel> result = Result<TemperatureModel>.Create();
-
         if (string.IsNullOrWhiteSpace(modifiedBy))
         {
             throw new ArgumentNullException(modifiedBy, nameof(modifiedBy));
         }
+
+        Result<TemperatureModel> result = Result<TemperatureModel>.Create();
 
         if (result.Succeeded)
         {

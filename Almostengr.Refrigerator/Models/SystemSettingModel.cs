@@ -19,31 +19,21 @@ public sealed class SystemSettingModel
 
     internal Result<SystemSettingModel> AssignToEntity(SystemSettingModel entity, string modifiedBy)
     {
+        if (string.IsNullOrWhiteSpace(modifiedBy))
+        {
+            throw new ArgumentNullException(modifiedBy, nameof(modifiedBy));
+        }
+
         Result<SystemSettingModel> result = Result<SystemSettingModel>.Create();
 
-        if (SettingOption == SystemSettingOption.CompressorGpio && (entity.IntValue() < 1 || entity.IntValue() > 30))
+        if (SettingOption == SystemSettingOption.DefrostMinutes && IntValue() < 0)
         {
-            result.AddError("Invalid GPIO number.");
+            result.AddError("Value must be greater than zero (0). Enter zero to disable feature.");
         }
 
-        if (SettingOption == SystemSettingOption.DoorSensorGpio && (entity.IntValue() < 0 || entity.IntValue() > 30))
+        if (SettingOption == SystemSettingOption.DoorAlarmSeconds && IntValue() < 0)
         {
-            result.AddError("Invalid GPIO number.");
-        }
-
-        if (SettingOption == SystemSettingOption.DoorAlarmGpio && (entity.IntValue() < 0 || entity.IntValue() > 30))
-        {
-            result.AddError("Invalid GPIO number.");
-        }
-
-        if (SettingOption == SystemSettingOption.DefrostGpio && (entity.IntValue() < 0 || entity.IntValue() > 30))
-        {
-            result.AddError("Invalid GPIO number.");
-        }
-
-        if (SettingOption == SystemSettingOption.DefrostMinutes && entity.IntValue() < 0)
-        {
-            result.AddError("Value must be greater than zero (0).");
+            result.AddError("Value must be greater than zero (0). Enter zero to disable feature.");
         }
 
         if (result.Succeeded)

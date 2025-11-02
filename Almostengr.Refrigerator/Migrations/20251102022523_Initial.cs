@@ -18,7 +18,7 @@ namespace Almostengr.Refrigerator.Migrations
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Value = table.Column<string>(type: "TEXT", maxLength: 150, nullable: false),
-                    ModifiedBy = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
+                    ModifiedBy = table.Column<string>(type: "TEXT", maxLength: 100, nullable: true),
                     ModifiedDate = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>

@@ -24,7 +24,6 @@ namespace Almostengr.Refrigerator.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("ModifiedBy")
-                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("TEXT");
 

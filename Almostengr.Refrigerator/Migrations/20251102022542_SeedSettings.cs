@@ -18,11 +18,7 @@ namespace Almostengr.Refrigerator.Migrations
                     {1, "32", "SYSTEM", DateTime.Now},
                     {2, "36", "SYSTEM", DateTime.Now},
                     {3, "0", "SYSTEM", DateTime.Now},
-                    {5, "4", "SYSTEM", DateTime.Now},
-                    {6, "0", "SYSTEM", DateTime.Now},
-                    {7, "0", "SYSTEM", DateTime.Now},
                     {8, "0", "SYSTEM", DateTime.Now},
-                    {9, "0", "SYSTEM", DateTime.Now},
                 });
         }
 
@@ -32,7 +28,7 @@ namespace Almostengr.Refrigerator.Migrations
             migrationBuilder.DeleteData(
                 "SystemSettings",
                 "Id",
-                keyValues: [1, 2, 3, 4, 5, 6, 7, 8, 9]
+                keyValues: [1, 2, 3, 8]
             );
         }
     }

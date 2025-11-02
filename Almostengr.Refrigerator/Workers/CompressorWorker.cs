@@ -17,33 +17,23 @@ internal sealed class CompressorWorker : BaseWorker<CompressorWorker>
         {
             try
             {
-                SystemSettingModel compressorSetting = await GetSystemSettingAsync(SystemSettingOption.CompressorGpio);
-                SystemSettingModel defrostSetting = await GetSystemSettingAsync(SystemSettingOption.DefrostGpio);
+                WriteOutput(GpioPinOption.Defroster, PinValue.Low);
 
-                if (compressorSetting.IntValue() > 0 && (FridgeStateModel.LastDefrosted - DateTime.Now) >= TimeSpan.FromHours(8))
+                TemperatureModel latestReading = await _dbContext.Temperatures
+                    .AsNoTracking()
+                    .Where(t => t.ModifiedDate >= DateTime.Now.AddMinutes(-10))
+                    .OrderByDescending(t => t.Id)
+                    .FirstOrDefaultAsync();
+                SystemSettingModel minTempSetting = await GetSystemSettingAsync(SystemSettingOption.MinimumTemperatureC);
+                SystemSettingModel maxTempSetting = await GetSystemSettingAsync(SystemSettingOption.MaximumTemperatureC);
+
+                if (latestReading == null || latestReading.ReadingC >= maxTempSetting.DecimalValue())
                 {
-                    WriteOutput(compressorSetting.IntValue(), PinValue.Low);
-                    WriteOutput(defrostSetting.IntValue(), PinValue.High);
-
-                    SystemSettingModel defrostTimeSetting = await GetSystemSettingAsync(SystemSettingOption.DefrostMinutes);
-                    await Task.Delay(TimeSpan.FromMinutes(defrostTimeSetting.IntValue()));
+                    WriteOutput(GpioPinOption.Compressor, PinValue.High);
                 }
-                else
+                else if (latestReading.ReadingC <= minTempSetting.DecimalValue())
                 {
-                    WriteOutput(defrostSetting.IntValue(), PinValue.Low);
-
-                    TemperatureModel latestReading = await _dbContext.Temperatures.AsNoTracking().OrderByDescending(t => t.Id).FirstOrDefaultAsync();
-                    SystemSettingModel minTempSetting = await GetSystemSettingAsync(SystemSettingOption.MinimumTemperatureC);
-                    SystemSettingModel maxTempSetting = await GetSystemSettingAsync(SystemSettingOption.MaximumTemperatureC);
-
-                    if (latestReading == null || latestReading.ReadingC >= maxTempSetting.DecimalValue())
-                    {
-                        WriteOutput(compressorSetting.IntValue(), PinValue.High);
-                    }
-                    else if (latestReading.ReadingC <= minTempSetting.DecimalValue())
-                    {
-                        WriteOutput(compressorSetting.IntValue(), PinValue.Low);
-                    }
+                    WriteOutput(GpioPinOption.Compressor, PinValue.Low);
                 }
             }
             catch (Exception ex)
@@ -54,6 +44,4 @@ internal sealed class CompressorWorker : BaseWorker<CompressorWorker>
             await Task.Delay(TimeSpan.FromMinutes(5));
         }
     }
-
-
 }

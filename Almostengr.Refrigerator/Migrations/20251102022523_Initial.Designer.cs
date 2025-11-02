@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Almostengr.Refrigerator.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20251101225021_Initial")]
+    [Migration("20251102022523_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -27,7 +27,6 @@ namespace Almostengr.Refrigerator.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("ModifiedBy")
-                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("TEXT");
 

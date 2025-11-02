@@ -11,20 +11,8 @@ public enum SystemSettingOption
     MaximumTemperatureC = 2,
 
     [Description("Door Alarm Delay Seconds")]
-    DoorAlarmMinutes = 3,
-
-    [Description("Compressor GPIO")]
-    CompressorGpio = 5,
-
-    [Description("Door Sensor GPIO")]
-    DoorSensorGpio = 6,
-
-    [Description("Door Alarm GPIO")]
-    DoorAlarmGpio = 7,
+    DoorAlarmSeconds = 3,
 
     [Description("Defrost Duration Minutes")]
     DefrostMinutes = 8,
-
-    [Description("Defrost GPIO")]
-    DefrostGpio = 9,
 }

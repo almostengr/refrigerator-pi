@@ -20,17 +20,12 @@ internal sealed class DoorStateWorker : BaseWorker<DoorStateWorker>
         {
             try
             {
-                SystemSettingModel sensorSetting = await GetSystemSettingAsync(SystemSettingOption.DoorSensorGpio);
-                if (sensorSetting.IntValue() == 0)
-                {
-                    await Task.Delay(TimeSpan.FromSeconds(15));
-                    continue;
-                }
-
-                PinValue state = ReadInput(sensorSetting.IntValue());
+                PinValue state = ReadInput(GpioPinOption.DoorSensor);
                 if (state == PinValue.High)
                 {
                     FridgeStateModel.IsDoorOpen = true;
+                    WriteOutput(GpioPinOption.Light, PinValue.High);
+
                     if (FridgeStateModel.DoorLastOpened == null)
                     {
                         FridgeStateModel.DoorLastOpened = DateTime.Now;
@@ -40,6 +35,7 @@ internal sealed class DoorStateWorker : BaseWorker<DoorStateWorker>
                 {
                     FridgeStateModel.IsDoorOpen = false;
                     FridgeStateModel.DoorLastOpened = null;
+                    WriteOutput(GpioPinOption.Light, PinValue.Low);
                 }
             }
             catch (Exception ex)

@@ -28,31 +28,25 @@ internal abstract class BaseWorker<TWorker> : BackgroundService
             .SingleOrDefaultAsync();
     }
 
-    protected PinValue ReadInput(int pinNumber)
+    protected PinValue ReadInput(GpioPinOption pin)
     {
-        if (pinNumber < 1 || pinNumber > 30)
-        {
-            return PinValue.Low;
-        }
+        int pinNumber = (int)pin;
 
         if (!_gpioController.IsPinOpen(pinNumber))
         {
-            _gpioController.OpenPin(pinNumber, PinMode.InputPullUp);
+            _gpioController.OpenPin(pinNumber);
         }
 
         return _gpioController.Read(pinNumber);
     }
 
-    protected void WriteOutput(int pinNumber, PinValue pinValue)
+    protected void WriteOutput(GpioPinOption pin, PinValue pinValue)
     {
-        if (pinNumber < 1 || pinNumber > 30)
-        {
-            return;
-        }
+        int pinNumber = (int)pin;
 
         if (!_gpioController.IsPinOpen(pinNumber))
         {
-            _gpioController.OpenPin(pinNumber, PinMode.Output);
+            _gpioController.OpenPin(pinNumber);
         }
 
         _gpioController.Write(pinNumber, pinValue);
