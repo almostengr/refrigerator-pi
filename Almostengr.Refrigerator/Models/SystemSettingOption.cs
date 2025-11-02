@@ -13,6 +13,9 @@ public enum SystemSettingOption
     [Description("Door Alarm Delay Seconds")]
     DoorAlarmSeconds = 3,
 
+    [Description("Retain Temperature Reading Days")]
+    TemperatureReadingDays = 4,
+
     [Description("Defrost Duration Minutes")]
     DefrostMinutes = 8,
 }

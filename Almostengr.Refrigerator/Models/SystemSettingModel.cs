@@ -36,6 +36,11 @@ public sealed class SystemSettingModel
             result.AddError("Value must be greater than zero (0). Enter zero to disable feature.");
         }
 
+        if (SettingOption == SystemSettingOption.TemperatureReadingDays && IntValue() < 0)
+        {
+            result.AddError("Value must be greater than zero (0). Enter zero to disable feature.");
+        }
+
         if (result.Succeeded)
         {
             entity.Value = Value;

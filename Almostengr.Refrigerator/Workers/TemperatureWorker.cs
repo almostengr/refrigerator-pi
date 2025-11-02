@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using Almostengr.Common.DomainServices.Results;
 using Almostengr.Refrigerator.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Almostengr.Refrigerator.Workers;
 
@@ -32,8 +33,10 @@ internal sealed class TemperatureWorker : BaseWorker<TemperatureWorker>
                 if (result.Succeeded)
                 {
                     await _dbContext.Temperatures.AddAsync(result.Value, stoppingToken);
-                    await _dbContext.SaveChangesAsync(stoppingToken);
                 }
+
+                await RemoveOldReadingsAsync();
+                await _dbContext.SaveChangesAsync(stoppingToken);
             }
             catch (Exception ex)
             {
@@ -64,5 +67,19 @@ internal sealed class TemperatureWorker : BaseWorker<TemperatureWorker>
 
         string output = process.StandardOutput.ReadToEnd();
         return output;
+    }
+
+    private async Task RemoveOldReadingsAsync()
+    {
+        SystemSettingModel daysSetting = await GetSystemSettingAsync(SystemSettingOption.TemperatureReadingDays);
+        if (daysSetting.IntValue() == 0)
+        {
+            return;
+        }
+
+        List<TemperatureModel> entities = await _dbContext.Temperatures
+            .Where(t => t.ModifiedDate <= DateTime.Now.AddDays(-daysSetting.IntValue()))
+            .ToListAsync();
+        _dbContext.Temperatures.RemoveRange(entities);
     }
 }

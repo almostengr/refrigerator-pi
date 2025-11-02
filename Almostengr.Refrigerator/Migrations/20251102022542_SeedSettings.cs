@@ -18,6 +18,7 @@ namespace Almostengr.Refrigerator.Migrations
                     {1, "32", "SYSTEM", DateTime.Now},
                     {2, "36", "SYSTEM", DateTime.Now},
                     {3, "0", "SYSTEM", DateTime.Now},
+                    {4, "90", "SYSTEM", DateTime.Now},
                     {8, "0", "SYSTEM", DateTime.Now},
                 });
         }
