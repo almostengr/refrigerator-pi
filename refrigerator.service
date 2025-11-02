@@ -1,0 +1,8 @@
+[Unit]
+Description=Almostengr Refrigerator Service
+After=network.target
+
+[Service]
+ExecStart=/home/pi/refrigeratorpi/Almostengr.Refrigerator
+Type=notify
+Restart=always

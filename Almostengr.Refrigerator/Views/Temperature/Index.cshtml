@@ -1,0 +1,19 @@
+@model List<TemperatureModel>
+
+<h1>Temperature Readings</h1>
+<table class="table table-hover table-stripe">
+    <tr>
+        <th>Temperature</th>
+        <th>Created</th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.ReadingC</td>
+            <td>
+                @item.ModifiedDate.ToShortDateString()
+                @item.ModifiedDate.ToShortDateString()
+            </td>
+        </tr>
+    }
+</table>

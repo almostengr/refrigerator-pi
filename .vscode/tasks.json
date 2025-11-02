@@ -1,0 +1,19 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "dotnet",
+			"task": "watch Almostengr.Refrigerator",
+			"file": "/mnt/d74511ce-4722-471d-8d27-05013fd521b3/refrigerator/Almostengr.Refrigerator/Almostengr.Refrigerator.csproj",
+			"problemMatcher": [],
+			"label": "dotnet: watch Almostengr.Refrigerator"
+		},
+		{
+			"type": "dotnet",
+			"task": "build",
+			"group": "build",
+			"problemMatcher": [],
+			"label": "dotnet: build"
+		}
+	]
+}
