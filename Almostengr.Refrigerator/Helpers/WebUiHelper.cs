@@ -15,4 +15,9 @@ public static class WebUiHelper
 
         return attribute?.Description ?? enumValue.ToString();
     }
+
+    public static string ToOnOff(this bool value)
+    {
+        return value ? "On" : "Off";
+    }
 }

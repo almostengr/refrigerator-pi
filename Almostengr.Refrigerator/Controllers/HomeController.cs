@@ -1,24 +1,30 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Almostengr.Refrigerator.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Almostengr.Refrigerator.Controllers;
 
 public class HomeController : BaseController
 {
     private readonly ILogger<HomeController> _logger;
+    private readonly ApplicationDbContext _dbContext;
 
-    public HomeController(ILogger<HomeController> logger)
+    public HomeController(
+        ApplicationDbContext dbContext,
+        ILogger<HomeController> logger)
     {
         _logger = logger;
+        _dbContext = dbContext;
     }
 
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
-        return RedirectToActionPermanent("Index", "Temperature");
+        List<TemperatureModel> temperature = await _dbContext.Temperatures.OrderByDescending(t => t.Id).Take(5).ToListAsync();
+        HomePageViewModel model = new(temperature, FridgeStateModel.IsCompressorRunning);
+        return View(model);
     }
-
-
+ 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {
