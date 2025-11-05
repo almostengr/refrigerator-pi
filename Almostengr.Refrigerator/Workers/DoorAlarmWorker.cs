@@ -1,14 +1,20 @@
 using System.Device.Gpio;
 using Almostengr.Refrigerator.Models;
+using Almostengr.Refrigerator.Services.Interfaces;
 
 namespace Almostengr.Refrigerator.Workers;
 
 internal sealed class DoorAlarmWorker : BaseWorker<DoorAlarmWorker>
 {
+    private readonly ISystemSettingService _systemSettingService;
+
     public DoorAlarmWorker(
         ApplicationDbContext dbContext,
-        ILogger<DoorAlarmWorker> logger) : base(dbContext, logger)
+        ILogger<DoorAlarmWorker> logger,
+        ISystemSettingService systemSettingService
+        ) : base(dbContext, logger)
     {
+        _systemSettingService = systemSettingService;
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -17,7 +23,7 @@ internal sealed class DoorAlarmWorker : BaseWorker<DoorAlarmWorker>
         {
             try
             {
-                SystemSettingModel timeoutSetting = await GetSystemSettingAsync(SystemSettingOption.DoorAlarmSeconds);
+                SystemSettingModel timeoutSetting = await _systemSettingService.GetEntityByOptionAsync(SystemSettingOption.DoorAlarmSeconds);
                 if (timeoutSetting.IntValue() == 0)
                 {
                     await Task.Delay(TimeSpan.FromSeconds(60));

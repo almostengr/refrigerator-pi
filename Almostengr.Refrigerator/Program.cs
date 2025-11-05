@@ -1,4 +1,6 @@
 using Almostengr.Refrigerator.Models;
+using Almostengr.Refrigerator.Services;
+using Almostengr.Refrigerator.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,6 +11,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddTransient<ISystemSettingService, SystemSettingService>();
 
 #if RELEASE
 builder.Services.AddHostedService<CompressorWorker>();

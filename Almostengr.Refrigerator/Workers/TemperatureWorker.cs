@@ -1,17 +1,22 @@
 using System.Diagnostics;
 using Almostengr.Common.DomainServices.Results;
 using Almostengr.Refrigerator.Models;
+using Almostengr.Refrigerator.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Almostengr.Refrigerator.Workers;
 
 internal sealed class TemperatureWorker : BaseWorker<TemperatureWorker>
 {
+    private readonly ISystemSettingService _systemSettingService;
+
     public TemperatureWorker(
         ApplicationDbContext dbContext,
-        ILogger<TemperatureWorker> logger
+        ILogger<TemperatureWorker> logger,
+        ISystemSettingService systemSettingService
         ) : base(dbContext, logger)
     {
+        _systemSettingService = systemSettingService;
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -71,7 +76,7 @@ internal sealed class TemperatureWorker : BaseWorker<TemperatureWorker>
 
     private async Task RemoveOldReadingsAsync()
     {
-        SystemSettingModel daysSetting = await GetSystemSettingAsync(SystemSettingOption.TemperatureReadingDays);
+        SystemSettingModel daysSetting = await _systemSettingService.GetEntityByOptionAsync(SystemSettingOption.TemperatureReadingDays);
         if (daysSetting.IntValue() == 0)
         {
             return;

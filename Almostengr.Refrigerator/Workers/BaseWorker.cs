@@ -1,6 +1,5 @@
 using System.Device.Gpio;
 using Almostengr.Refrigerator.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace Almostengr.Refrigerator.Workers;
 
@@ -18,14 +17,6 @@ internal abstract class BaseWorker<TWorker> : BackgroundService
         _dbContext = dbContext;
         _gpioController = new GpioController();
         _logger = logger;
-    }
-
-    protected async Task<SystemSettingModel> GetSystemSettingAsync(SystemSettingOption option)
-    {
-        return await _dbContext.SystemSettings
-            .AsNoTracking()
-            .Where(s => s.Id == (int)option)
-            .SingleOrDefaultAsync();
     }
 
     protected PinValue ReadInput(GpioPinOption pin)

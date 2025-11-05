@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Almostengr.Refrigerator.Models;
 using Microsoft.EntityFrameworkCore;
 using Almostengr.Common.DomainServices.Results;
+using Almostengr.Refrigerator.Services.Interfaces;
 
 namespace Almostengr.Refrigerator.Controllers;
 
@@ -9,14 +10,17 @@ public class SystemSettingController : BaseController
 {
     private readonly ApplicationDbContext _dbContext;
     private readonly ILogger<SystemSettingController> _logger;
+    private readonly ISystemSettingService _systemSettingService;
 
     public SystemSettingController(
         ApplicationDbContext dbContext,
-        ILogger<SystemSettingController> logger
+        ILogger<SystemSettingController> logger,
+        ISystemSettingService systemSettingservice
         )
     {
         _dbContext = dbContext;
         _logger = logger;
+        _systemSettingService = systemSettingservice;
     }
 
     [HttpGet]
@@ -29,7 +33,7 @@ public class SystemSettingController : BaseController
     [HttpGet]
     public async Task<IActionResult> Edit(int id)
     {
-        SystemSettingModel model = await GetEntityByIdAsync(id);
+        SystemSettingModel model = await _systemSettingService.GetEntityByIdAsync(id);
         if (model == null)
         {
             return NotFoundParitalView();
@@ -45,7 +49,7 @@ public class SystemSettingController : BaseController
         {
             try
             {
-                SystemSettingModel entity = await GetEntityByIdAsync(model.Id);
+                SystemSettingModel entity = await _systemSettingService.GetEntityByIdAsync(model.Id);
                 if (entity == null)
                 {
                     return NotFoundParitalView();
@@ -68,10 +72,5 @@ public class SystemSettingController : BaseController
         }
 
         return PartialView("_Edit", model);
-    }
-
-    private async Task<SystemSettingModel> GetEntityByIdAsync(int id)
-    {
-        return await _dbContext.SystemSettings.Where(s => s.Id == id).SingleOrDefaultAsync();
     }
 }
