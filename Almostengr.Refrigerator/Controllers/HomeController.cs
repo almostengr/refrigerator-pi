@@ -2,6 +2,7 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Almostengr.Refrigerator.Models;
 using Microsoft.EntityFrameworkCore;
+using Almostengr.Refrigerator.Features.Common.Shared;
 
 namespace Almostengr.Refrigerator.Controllers;
 

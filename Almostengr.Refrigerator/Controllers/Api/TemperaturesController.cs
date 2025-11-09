@@ -1,3 +1,4 @@
+using Almostengr.Refrigerator.Features.Common.Shared;
 using Almostengr.Refrigerator.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;

@@ -1,9 +1,10 @@
 using System.ComponentModel.DataAnnotations;
 using Almostengr.Common.DomainServices.Results;
+using Almostengr.Refrigerator.Models;
 
-namespace Almostengr.Refrigerator.Models;
+namespace Almostengr.Refrigerator.Features.SystemSettings.Domain;
 
-public sealed class SystemSettingModel
+public sealed class SystemSettingEntity
 {
     [Required, Key]
     public int Id { get; set; }
@@ -17,14 +18,14 @@ public sealed class SystemSettingModel
     public DateTime ModifiedDate { get; set; }
     public SystemSettingOption SettingOption => (SystemSettingOption)Id;
 
-    internal Result<SystemSettingModel> AssignToEntity(SystemSettingModel entity, string modifiedBy)
+    internal Result<SystemSettingEntity> Update(string value, string modifiedBy)
     {
         if (string.IsNullOrWhiteSpace(modifiedBy))
         {
             throw new ArgumentNullException(modifiedBy, nameof(modifiedBy));
         }
 
-        Result<SystemSettingModel> result = Result<SystemSettingModel>.Create();
+        Result<SystemSettingEntity> result = Result<SystemSettingEntity>.Create();
 
         if (SettingOption == SystemSettingOption.DefrostMinutes && IntValue() < 0)
         {
@@ -43,10 +44,10 @@ public sealed class SystemSettingModel
 
         if (result.Succeeded)
         {
-            entity.Value = Value;
-            entity.ModifiedBy = modifiedBy;
-            entity.ModifiedDate = DateTime.Now;
-            result.SetValue(entity);
+            Value = value;
+            ModifiedBy = modifiedBy;
+            ModifiedDate = DateTime.Now;
+            result.SetValue(this);
         }
 
         return result;

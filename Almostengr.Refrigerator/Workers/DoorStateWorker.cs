@@ -1,5 +1,5 @@
 using System.Device.Gpio;
-using Almostengr.Refrigerator.Models;
+using Almostengr.Refrigerator.Features.Common.Shared;
 
 namespace Almostengr.Refrigerator.Workers;
 
@@ -8,7 +8,7 @@ internal sealed class DoorStateWorker : BaseWorker<DoorStateWorker>
     public DoorStateWorker(
         ApplicationDbContext dbContext,
         ILogger<DoorStateWorker> logger
-        ) : base(dbContext, logger)
+        ) : base( logger)
     {
     }
 

@@ -1,18 +1,17 @@
-using Almostengr.Refrigerator.Models;
-using Almostengr.Refrigerator.Services;
-using Almostengr.Refrigerator.Services.Interfaces;
+using Almostengr.Refrigerator.Features.Common.Shared;
+using Almostengr.Refrigerator.Features.SystemSettings.DomainServices.Interfaces;
+using Almostengr.Refrigerator.Features.Temperatures.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlite(connectionString, sqlite => sqlite.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
+builder.Services.AddCommonExtensions(builder.Configuration);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddTransient<ISystemSettingService, SystemSettingService>();
+builder.Services.AddSystemSettingServices();
+builder.Services.AddTemperatureServices();
 
 #if RELEASE
 builder.Services.AddHostedService<CompressorWorker>();

@@ -1,6 +1,8 @@
+using Almostengr.Refrigerator.Features.SystemSettings.Domain;
+using Almostengr.Refrigerator.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace Almostengr.Refrigerator.Models;
+namespace Almostengr.Refrigerator.Features.Common.Shared;
 
 public class ApplicationDbContext : DbContext
 {
@@ -9,6 +11,6 @@ public class ApplicationDbContext : DbContext
     {
     }
 
-    public DbSet<SystemSettingModel> SystemSettings { get; set; }
+    public DbSet<SystemSettingEntity> SystemSettings { get; set; }
     public DbSet<TemperatureModel> Temperatures { get; set; }
 }

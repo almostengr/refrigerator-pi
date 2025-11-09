@@ -1,4 +1,4 @@
-using Almostengr.Refrigerator.Models;
+using Almostengr.Refrigerator.Features.Common.Shared;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Almostengr.Refrigerator.Controllers.Api;

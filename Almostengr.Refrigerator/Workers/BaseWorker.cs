@@ -1,20 +1,17 @@
 using System.Device.Gpio;
-using Almostengr.Refrigerator.Models;
+using Almostengr.Refrigerator.Features.Common.Shared;
 
 namespace Almostengr.Refrigerator.Workers;
 
 internal abstract class BaseWorker<TWorker> : BackgroundService
 {
-    protected readonly ApplicationDbContext _dbContext;
     protected readonly GpioController _gpioController;
     protected readonly ILogger<TWorker> _logger;
 
     public BaseWorker(
-        ApplicationDbContext dbContext,
         ILogger<TWorker> logger
     )
     {
-        _dbContext = dbContext;
         _gpioController = new GpioController();
         _logger = logger;
     }

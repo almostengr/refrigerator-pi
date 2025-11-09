@@ -1,22 +1,29 @@
 using System.Diagnostics;
 using Almostengr.Common.DomainServices.Results;
+using Almostengr.Refrigerator.Features.Common.Shared;
+using Almostengr.Refrigerator.Features.SystemSettings.Domain;
+using Almostengr.Refrigerator.Features.SystemSettings.Services.Interfaces;
+using Almostengr.Refrigerator.Features.Temperatures.Services.interfaces;
 using Almostengr.Refrigerator.Models;
-using Almostengr.Refrigerator.Services.Interfaces;
-using Microsoft.EntityFrameworkCore;
 
 namespace Almostengr.Refrigerator.Workers;
 
 internal sealed class TemperatureWorker : BaseWorker<TemperatureWorker>
 {
-    private readonly ISystemSettingService _systemSettingService;
+    private readonly ApplicationDbContext _dbContext;
+    private readonly IQuerySystemSettingService _querySystemSettingService;
+    private readonly IQueryTemperatureService _queryTemperatureService;
 
     public TemperatureWorker(
         ApplicationDbContext dbContext,
         ILogger<TemperatureWorker> logger,
-        ISystemSettingService systemSettingService
-        ) : base(dbContext, logger)
+        IQuerySystemSettingService querySystemSettingService,
+        IQueryTemperatureService queryTemperatureService
+        ) : base(logger)
     {
-        _systemSettingService = systemSettingService;
+        _dbContext = dbContext;
+        _querySystemSettingService = querySystemSettingService;
+        _queryTemperatureService = queryTemperatureService;
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -76,15 +83,13 @@ internal sealed class TemperatureWorker : BaseWorker<TemperatureWorker>
 
     private async Task RemoveOldReadingsAsync()
     {
-        SystemSettingModel daysSetting = await _systemSettingService.GetEntityByOptionAsync(SystemSettingOption.TemperatureReadingDays);
+        SystemSettingEntity daysSetting = await _querySystemSettingService.GetEntityByOptionAsync(SystemSettingOption.TemperatureReadingDays);
         if (daysSetting.IntValue() == 0)
         {
             return;
         }
 
-        List<TemperatureModel> entities = await _dbContext.Temperatures
-            .Where(t => t.ModifiedDate <= DateTime.Now.AddDays(-daysSetting.IntValue()))
-            .ToListAsync();
+        IList<TemperatureModel> entities = await _queryTemperatureService.GetListByDateRangeAsync(daysSetting.IntValue());
         _dbContext.Temperatures.RemoveRange(entities);
     }
 }

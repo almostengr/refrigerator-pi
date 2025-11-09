@@ -1,4 +1,3 @@
-
 namespace Almostengr.Refrigerator.Models;
 
 internal class HomePageViewModel

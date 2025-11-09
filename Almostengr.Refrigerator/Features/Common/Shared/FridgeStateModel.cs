@@ -1,4 +1,4 @@
-namespace Almostengr.Refrigerator.Models;
+namespace Almostengr.Refrigerator.Features.Common.Shared;
 
 public static class FridgeStateModel
 {

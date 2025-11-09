@@ -1,20 +1,24 @@
 using System.Device.Gpio;
+using Almostengr.Refrigerator.Features.Common.Shared;
+using Almostengr.Refrigerator.Features.SystemSettings.Domain;
+using Almostengr.Refrigerator.Features.SystemSettings.Services.Interfaces;
 using Almostengr.Refrigerator.Models;
-using Almostengr.Refrigerator.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Almostengr.Refrigerator.Workers;
 
 internal sealed class CompressorWorker : BaseWorker<CompressorWorker>
 {
-    private readonly ISystemSettingService _systemSettingService;
+    private readonly ApplicationDbContext _dbContext;
+    private readonly IQuerySystemSettingService _systemSettingService;
 
     public CompressorWorker(
         ApplicationDbContext dbContext,
         ILogger<CompressorWorker> logger,
-        ISystemSettingService systemSettingService
-        ) : base(dbContext, logger)
+        IQuerySystemSettingService systemSettingService
+        ) : base( logger)
     {
+        _dbContext = dbContext;
         _systemSettingService = systemSettingService;
     }
 
@@ -31,8 +35,8 @@ internal sealed class CompressorWorker : BaseWorker<CompressorWorker>
                     .Where(t => t.ModifiedDate >= DateTime.Now.AddMinutes(-10))
                     .OrderByDescending(t => t.Id)
                     .FirstOrDefaultAsync();
-                SystemSettingModel minTempSetting = await _systemSettingService.GetEntityByOptionAsync(SystemSettingOption.MinimumTemperatureC);
-                SystemSettingModel maxTempSetting = await _systemSettingService.GetEntityByOptionAsync(SystemSettingOption.MaximumTemperatureC);
+                SystemSettingEntity minTempSetting = await _systemSettingService.GetEntityByOptionAsync(SystemSettingOption.MinimumTemperatureC);
+                SystemSettingEntity maxTempSetting = await _systemSettingService.GetEntityByOptionAsync(SystemSettingOption.MaximumTemperatureC);
 
                 if (latestReading == null || latestReading.ReadingC >= maxTempSetting.DecimalValue())
                 {
