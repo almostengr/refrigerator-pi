@@ -1,4 +1,5 @@
 using Almostengr.Refrigerator.Features.Common.Shared;
+using Almostengr.Refrigerator.Features.Compressors.Shared;
 using Almostengr.Refrigerator.Features.SystemSettings.DomainServices.Interfaces;
 using Almostengr.Refrigerator.Features.Temperatures.Services;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,7 @@ builder.Services.AddCommonExtensions(builder.Configuration);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+builder.Services.AddCompressorHistoryServices();
 builder.Services.AddSystemSettingServices();
 builder.Services.AddTemperatureServices();
 

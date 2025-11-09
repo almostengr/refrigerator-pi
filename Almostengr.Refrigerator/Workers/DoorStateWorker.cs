@@ -8,7 +8,7 @@ internal sealed class DoorStateWorker : BaseWorker<DoorStateWorker>
     public DoorStateWorker(
         ApplicationDbContext dbContext,
         ILogger<DoorStateWorker> logger
-        ) : base( logger)
+        ) : base(logger)
     {
     }
 
@@ -40,7 +40,7 @@ internal sealed class DoorStateWorker : BaseWorker<DoorStateWorker>
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex.Message);
+                _logger.LogError(ex, CommonExtensions.LOG_MESSAGE, ex.Message);
             }
 
             await Task.Delay(TimeSpan.FromSeconds(5));

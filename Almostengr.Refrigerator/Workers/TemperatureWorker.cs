@@ -52,7 +52,7 @@ internal sealed class TemperatureWorker : BaseWorker<TemperatureWorker>
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, ex.Message);
+                _logger.LogError(ex, CommonExtensions.LOG_MESSAGE, ex.Message);
             }
 
             await Task.Delay(TimeSpan.FromMinutes(5));

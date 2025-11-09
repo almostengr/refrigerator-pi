@@ -42,7 +42,7 @@ internal sealed class DoorAlarmWorker : BaseWorker<DoorAlarmWorker>
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex.Message);
+                _logger.LogError(ex, CommonExtensions.LOG_MESSAGE, ex.Message);
             }
 
             await Task.Delay(TimeSpan.FromSeconds(1));

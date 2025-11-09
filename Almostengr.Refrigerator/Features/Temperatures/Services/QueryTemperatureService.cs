@@ -27,4 +27,13 @@ public sealed class QueryTemperatureService : IQueryTemperatureService
             .Where(t => t.ModifiedDate <= DateTime.Now.AddDays(-range))
             .ToListAsync();
     }
+
+    public async Task<TemperatureModel> GetLatestAsync()
+    {
+        return await _dbContext.Temperatures
+                   .AsNoTracking()
+                   .Where(t => t.ModifiedDate >= DateTime.Now.AddMinutes(-10))
+                   .OrderByDescending(t => t.Id)
+                   .FirstOrDefaultAsync();
+    }
 }
