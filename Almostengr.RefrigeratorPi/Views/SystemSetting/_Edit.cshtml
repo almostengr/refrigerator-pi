@@ -1,0 +1,28 @@
+@using Almostengr.RefrigeratorPi.Features.Common.Shared
+@using Microsoft.AspNetCore.Razor.Language
+@model SystemSettingViewModel
+
+<div class="modal-header">
+    <h5 class="modal-title">Edit Setting</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+</div>
+<div class="modal-body">
+    <form method="post" action="/systemsetting/edit" id="modalForm" autocomplete="off">
+        <partial name="_ValidationSummary" />
+        @Html.AntiForgeryToken()
+        <input type="hidden" asp-for="@Model.Id" />
+        <div class="mb-2">
+            <label for="Id" class="form-label">Name</label>
+            <div>@Model.SettingOption.ToDescription()</div>
+        </div>
+        <div class="mb-2">
+            <label for="Value" class="form-label required">Value</label>
+            <input type="text" class="form-control" asp-for="@Model.Value" required />
+            <div class="form-text">Value is required.</div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+    <button type="button" class="btn btn-primary" onclick="submitGenericModalAsync(this)">Save</button>
+</div>

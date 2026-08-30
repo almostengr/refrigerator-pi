@@ -3,6 +3,6 @@ Description=Almostengr Refrigerator Service
 After=network.target
 
 [Service]
-ExecStart=/home/pi/refrigeratorpi/Almostengr.Refrigerator
+ExecStart=/home/pi/refrigeratorpi/Almostengr.RefrigeratorPi
 Type=notify
 Restart=always

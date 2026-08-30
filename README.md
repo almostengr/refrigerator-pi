@@ -1,4 +1,15 @@
-# Refrigerator Controller
+# RefrigeratorPi
+
+## Table of Contents
+
+* [Description](#description)
+* [Installation](#installation)
+* [Usage](#usage)
+* [Contributions](#contributions)
+* [License](#license)
+
+
+## Description
 
 Control a refrigerator using C# MVC and Raspberry PI.
 
@@ -22,7 +33,12 @@ While this application uses C# MVC, it does not follow the Service, Repository, 
 as it was intended to be a project that was quickly built and to follow conventional MVC standards and best 
 practices.
 
-## Issues and Feature Requests
+## Contributions
 
 Any defects, issues, and feature requests should be added as an Issue on the projet's Github repository. This 
 can be done at [https://github.com/almostengr/refrigerator-pi](https://github.com/almostengr/refrigerator-pi).
+
+
+## License
+
+GNU GENERAL PUBLIC LICENSE. See LICENSE for more details.

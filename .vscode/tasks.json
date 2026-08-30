@@ -3,10 +3,10 @@
 	"tasks": [
 		{
 			"type": "dotnet",
-			"task": "watch Almostengr.Refrigerator",
-			"file": "/mnt/d74511ce-4722-471d-8d27-05013fd521b3/refrigerator/Almostengr.Refrigerator/Almostengr.Refrigerator.csproj",
+			"task": "watch Almostengr.RefrigeratorPi",
+			"file": "/mnt/d74511ce-4722-471d-8d27-05013fd521b3/refrigerator/Almostengr.RefrigeratorPi/Almostengr.RefrigeratorPi.csproj",
 			"problemMatcher": [],
-			"label": "dotnet: watch Almostengr.Refrigerator"
+			"label": "dotnet: watch Almostengr.RefrigeratorPi"
 		},
 		{
 			"type": "dotnet",
